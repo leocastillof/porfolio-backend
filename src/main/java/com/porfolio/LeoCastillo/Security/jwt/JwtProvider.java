@@ -1,4 +1,4 @@
-package com.porfolio.LeoCastillo.Segurity.jwt;
+package com.porfolio.LeoCastillo.Security.jwt;
 
 import com.porfolio.LeoCastillo.Security.Entity.UserPrincipal;
 import io.jsonwebtoken.ExpiredJwtException;

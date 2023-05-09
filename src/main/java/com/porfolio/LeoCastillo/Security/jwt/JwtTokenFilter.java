@@ -1,10 +1,10 @@
-package com.porfolio.LeoCastillo.Segurity.jwt;
+package com.porfolio.LeoCastillo.Security.jwt;
 
 import com.porfolio.LeoCastillo.Security.Service.UserDetailsImpl;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

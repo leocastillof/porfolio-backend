@@ -3,7 +3,7 @@ package com.porfolio.LeoCastillo.Security.Service;
 import com.porfolio.LeoCastillo.Enums.RolName;
 import com.porfolio.LeoCastillo.Security.Entity.Rol;
 import com.porfolio.LeoCastillo.Security.Repository.iRolRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

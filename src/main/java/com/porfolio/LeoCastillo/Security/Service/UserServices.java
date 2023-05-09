@@ -2,7 +2,7 @@ package com.porfolio.LeoCastillo.Security.Service;
 
 import com.porfolio.LeoCastillo.Security.Entity.User;
 import com.porfolio.LeoCastillo.Security.Repository.IUserRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
