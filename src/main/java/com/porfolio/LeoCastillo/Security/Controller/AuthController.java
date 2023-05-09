@@ -1,6 +1,9 @@
 package com.porfolio.LeoCastillo.Security.Controller;
 
 import com.porfolio.LeoCastillo.Enums.RolName;
+import com.porfolio.LeoCastillo.Security.Dto.JwtDto;
+import com.porfolio.LeoCastillo.Security.Dto.LoginUser;
+import com.porfolio.LeoCastillo.Security.Dto.NewUser;
 import com.porfolio.LeoCastillo.Security.Entity.Rol;
 import com.porfolio.LeoCastillo.Security.Entity.User;
 import com.porfolio.LeoCastillo.Security.Service.RolServices;
@@ -16,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,9 +48,9 @@ public class AuthController {
     {
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Messager("Las credenciales no son válidas"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByUsername(username.getUsername()))
+        if(userService.existsByUsername(newUser.getUsername()))
             return new ResponseEntity(new Messager("El nombre de usuario ya está en uso"), HttpStatus.BAD_REQUEST);
-        if(userService.existsByEmail(username.getEmail()))
+        if(userService.existsByEmail(newUser.getEmail()))
             return new ResponseEntity(new Messager("El correo electrónico ya está en uso"), HttpStatus.BAD_REQUEST);      
         User user = new User(newUser.getName(), newUser.getUsername(),
         newUser.getEmail(), passwordEncoder.encode(newUser.getPassword()));
@@ -55,7 +59,7 @@ public class AuthController {
         roles.add(rolService.getByName(RolName.ROL_USER).get());
         
         if(newUser.getRoles().contains("admin"))
-            roles.add(rolService.getByRolName(RolName.ROLE_ADMIN).get());
+            roles.add( rolService.getByName(RolName.ROL_USER).get());
         user.setRoles(roles);
         userService.save(user);
         
@@ -63,7 +67,7 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<JwtDTC> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult)
+    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Messager("Campos no válidos"), HttpStatus.BAD_REQUEST);
@@ -79,6 +83,6 @@ public class AuthController {
         
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         
-        return new ResponseEntity(jwtDto, HttpStatus.Ok);
+        return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
 }
