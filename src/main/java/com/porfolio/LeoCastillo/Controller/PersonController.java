@@ -4,6 +4,7 @@ import com.porfolio.LeoCastillo.Entity.Person;
 import com.porfolio.LeoCastillo.Interface.IPersonService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class PersonController {
         return ipersonService.getPerson();
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/person/insert")
     public String createPerson(@RequestBody Person person)
     {
@@ -32,6 +34,7 @@ public class PersonController {
         return "¡La persona fue creada correctamente!";
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/person/delete/{id}")
     public String deletePerson(@PathVariable Long id)
     {
@@ -39,6 +42,7 @@ public class PersonController {
         return "La persona fue eliminada correctamente";
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/person/edit/{id}")
     public Person editPerson(@PathVariable Long id, 
             @RequestParam("name") String newName,
