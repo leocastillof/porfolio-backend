@@ -1,15 +1,15 @@
 package com.porfolio.LeoCastillo.Security.Controller;
 
-public class Messager {
+public class Message {
     private String messager;
     
     // Constructor
-    public Messager()
+    public Message()
     {
         
     }
     
-    public Messager(String messager)
+    public Message(String messager)
     {
         this.messager = messager;
     }

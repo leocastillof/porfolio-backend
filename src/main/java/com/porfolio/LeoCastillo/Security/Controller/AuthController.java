@@ -47,11 +47,11 @@ public class AuthController {
     public ResponseEntity<?> newUser(@Valid @RequestBody NewUser newUser, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Messager("Las credenciales no son válidas"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Las credenciales no son válidas"), HttpStatus.BAD_REQUEST);
         if(userService.existsByUsername(newUser.getUsername()))
-            return new ResponseEntity(new Messager("El nombre de usuario ya está en uso"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El nombre de usuario ya está en uso"), HttpStatus.BAD_REQUEST);
         if(userService.existsByEmail(newUser.getEmail()))
-            return new ResponseEntity(new Messager("El correo electrónico ya está en uso"), HttpStatus.BAD_REQUEST);      
+            return new ResponseEntity(new Message("El correo electrónico ya está en uso"), HttpStatus.BAD_REQUEST);      
         User user = new User(newUser.getName(), newUser.getUsername(),
         newUser.getEmail(), passwordEncoder.encode(newUser.getPassword()));
         
@@ -63,14 +63,14 @@ public class AuthController {
         user.setRoles(roles);
         userService.save(user);
         
-        return new ResponseEntity(new Messager("Usuario guardado"), HttpStatus.CREATED);
+        return new ResponseEntity(new Message("Usuario guardado"), HttpStatus.CREATED);
     }
     
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Messager("Campos no válidos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Campos no válidos"), HttpStatus.BAD_REQUEST);
         
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
         loginUser.getUsername(), loginUser.getPassword()));
