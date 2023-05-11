@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.apache.commons.lang3.StringUtils; 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,6 +32,7 @@ public class ExperienceController {
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
+    @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody dtoExperience dtoexp)
     {
         if(StringUtils.isBlank(dtoexp.getNameE()))
@@ -40,6 +44,27 @@ public class ExperienceController {
         serviceExperience.save(experience);
         
         return new ResponseEntity(new Message("Experiencia agregada"), HttpStatus.OK);
+    }
+    
+    @PutMapping("/update/{id")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoExperience dtoexp)
+    {
+        // Validate exists ID
+        if(serviceExperience.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+        // Compare name exp
+        if(serviceExperience.existsByNameE(dtoexp.getNameE()) && serviceExperience.getByNameE(dtoexp.getNameE()).get().getId() != id)
+            return new ResponseEntity(new Message("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
+        // It cant be empty
+        if(StringUtils.isBlank(dtoexp.getNameE()))
+            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        Experience experience = serviceExperience.getOne(id).get();
+        experience.setNameE(dtoexp.getNameE());
+        experience.setDescriptionE(dtoexp.getDescriptionE());
+        
+        serviceExperience.save(experience);
+        return new ResponseEntity(new Message("Experiencia actualizada"), HttpStatus.OK);
     }
     
 }
