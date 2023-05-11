@@ -32,6 +32,14 @@ public class ExperienceController {
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Experience> getById(@PathVariable("id") int id){
+        if(!serviceExperience.existsById(id))
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
+        Experience experience = serviceExperience.getOne(id).get();
+        return new ResponseEntity(experience, HttpStatus.OK);
+    }
+    
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody dtoExperience dtoexp)
     {
