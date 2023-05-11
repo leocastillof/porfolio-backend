@@ -28,4 +28,24 @@ public class ServiceExperience {
     {
         return repositoryExp.findByNameE(nameE);
     }
+    
+    public void save(Experience exp)
+    {
+        repositoryExp.save(exp);
+    }
+    
+    public void delete(int id)
+    {
+        repositoryExp.deleteById(id);
+    }
+    
+    public boolean existsById(int id)
+    {
+        return repositoryExp.existsById(id);
+    }
+    
+    public boolean existsByNameE(String nameE)
+    {
+        return repositoryExp.existsByNameE(nameE);
+    }
 }
