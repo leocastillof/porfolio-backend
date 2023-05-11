@@ -1,7 +1,7 @@
 package com.porfolio.LeoCastillo.Security.Controller;
 
 public class Message {
-    private String messager;
+    private String message;
     
     // Constructor
     public Message()
@@ -11,17 +11,17 @@ public class Message {
     
     public Message(String messager)
     {
-        this.messager = messager;
+        this.message = messager;
     }
     
     // Getter & Setter
     public String getMessager()
     {
-        return messager;
+        return message;
     }
     
     public void setMessager(String messager)
     {
-        this.messager = messager;
+        this.message = messager;
     }
 }
