@@ -46,7 +46,7 @@ public class ExperienceController {
         return new ResponseEntity(new Message("Experiencia agregada"), HttpStatus.OK);
     }
     
-    @PutMapping("/update/{id")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoExperience dtoexp)
     {
         // Validate exists ID
@@ -67,4 +67,14 @@ public class ExperienceController {
         return new ResponseEntity(new Message("Experiencia actualizada"), HttpStatus.OK);
     }
     
+    public ResponseEntity<?> delete(@PathVariable("id") int id)
+    {
+        // Validate exists ID
+        if(!serviceExperience.existsById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.BAD_REQUEST);
+        
+         serviceExperience.delete(id);
+         
+          return new ResponseEntity(new Message("Experiencia eliminada"), HttpStatus.OK);
+    }
 }
