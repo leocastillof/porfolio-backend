@@ -1,14 +1,19 @@
 package com.porfolio.LeoCastillo.Service;
 
 import com.porfolio.LeoCastillo.Entity.AboutMe;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.porfolio.LeoCastillo.Respository.RepositoryAboutMe;
+import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+@Transactional
 public class ServiceAboutMe {
     @Autowired
     RepositoryAboutMe repositoryAboutMe;
+    
     public List<AboutMe> list(){
         return repositoryAboutMe.findAll();
     }
@@ -21,8 +26,8 @@ public class ServiceAboutMe {
         return repositoryAboutMe.findByDescription(description);
     }
     
-    public void save(AboutMe skill){
-        repositoryAboutMe.save(skill);
+    public void save(AboutMe aboutMe){
+        repositoryAboutMe.save(aboutMe);
     }
     
     public void delete(int id){
@@ -33,7 +38,7 @@ public class ServiceAboutMe {
         return repositoryAboutMe.existsById(id);
     }
     
-    public boolean existsByDescription(String name){
-        return repositoryAboutMe.existsByDescription(name);
+    public boolean existsByDescription(String description){
+        return repositoryAboutMe.existsByDescription(description);
     }
 }
