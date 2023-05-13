@@ -1,4 +1,5 @@
 com\porfolio\LeoCastillo\LeoCastilloApplication.class
+com\porfolio\LeoCastillo\Security\jwt\JwtEntryPoint.class
 com\porfolio\LeoCastillo\Entity\Education.class
 com\porfolio\LeoCastillo\Enums\RolName.class
 com\porfolio\LeoCastillo\Interface\IPersonService.class
@@ -17,13 +18,17 @@ com\porfolio\LeoCastillo\Security\Dto\LoginUser.class
 com\porfolio\LeoCastillo\Security\jwt\JwtTokenFilter.class
 com\porfolio\LeoCastillo\Controller\PersonController.class
 com\porfolio\LeoCastillo\Entity\Person.class
+com\porfolio\LeoCastillo\Respository\IPersonRepository.class
 com\porfolio\LeoCastillo\Security\Entity\Rol.class
 com\porfolio\LeoCastillo\Security\Service\UserServices.class
 com\porfolio\LeoCastillo\Dto\dtoExperience.class
 com\porfolio\LeoCastillo\Security\Dto\NewUser.class
 com\porfolio\LeoCastillo\Security\Dto\JwtDto.class
 com\porfolio\LeoCastillo\Controller\EducationController.class
+com\porfolio\LeoCastillo\Security\MainSecurity.class
 com\porfolio\LeoCastillo\Dto\dtoEducation.class
 com\porfolio\LeoCastillo\Security\Entity\User.class
+com\porfolio\LeoCastillo\Security\Entity\UserPrincipal.class
 com\porfolio\LeoCastillo\Security\jwt\JwtProvider.class
+com\porfolio\LeoCastillo\Service\ImpPersonService.class
 com\porfolio\LeoCastillo\Security\Repository\iRolRepository.class
