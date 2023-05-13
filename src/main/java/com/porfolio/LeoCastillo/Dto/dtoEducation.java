@@ -31,6 +31,4 @@ public class dtoEducation {
     public void setDescriptionE(String descriptionE) {
         this.descriptionE = descriptionE;
     }
-    
-    
 }

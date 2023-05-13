@@ -5,6 +5,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryHyS extends JpaRepository<HyS, Integer>{
-    Optional<HyS> findByName(String name);
+    public Optional<HyS> findByName(String name);
     public boolean existsByName(String name);
 }
