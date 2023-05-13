@@ -1,68 +1,67 @@
 package com.porfolio.LeoCastillo.Controller;
 
+import com.porfolio.LeoCastillo.Dto.dtoPerson;
 import com.porfolio.LeoCastillo.Entity.Person;
-import com.porfolio.LeoCastillo.Interface.IPersonService;
+import com.porfolio.LeoCastillo.Security.Controller.Message;
+import com.porfolio.LeoCastillo.Service.ImpPersonService;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 /* @CrossOrigin(origins = {"https://porfolio-frontend-leo.web.app","http://localhost:4200"}) */
 @CrossOrigin("*")
+@RequestMapping("/persons")
 public class PersonController {
-    @Autowired IPersonService ipersonService;
+    @Autowired
+    ImpPersonService personService;
     
-    @GetMapping("/person/get")
-    public List<Person> getPerson()
-    {
-        return ipersonService.getPerson();
+    @GetMapping("/list")
+    public ResponseEntity<List<Person>> list(){
+        List<Person> list = personService.list();
+        return new ResponseEntity(list, HttpStatus.OK);
     }
     
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/person/insert")
-    public String createPerson(@RequestBody Person person)
-    {
-        ipersonService.savePerson(person);
-        return "¡La persona fue creada correctamente!";
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/person/delete/{id}")
-    public String deletePerson(@PathVariable Long id)
-    {
-        ipersonService.deletePerson(id);
-        return "La persona fue eliminada correctamente";
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/person/edit/{id}")
-    public Person editPerson(@PathVariable Long id, 
-            @RequestParam("name") String newName,
-            @RequestParam("lastname") String newLastName,
-            @RequestParam("img") String newImg){
-        Person person = ipersonService.findPerson(id);
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Person> getById(@PathVariable("id")int id){
+        if(!personService.existsById(id)){
+            return new ResponseEntity(new Message("No existe el ID"), HttpStatus.BAD_REQUEST);
+        }
         
-        person.setName(newName);
-        person.setLastname(newLastName);
-        person.setImg(newImg);
-        
-        ipersonService.savePerson(person);
-        
-        return person;
+        Person person = personService.getOne(id).get();
+        return new ResponseEntity(person, HttpStatus.OK);
     }
     
-    @GetMapping("/person/get/profile")
-    public Person findPerson()
-    {
-        return ipersonService.findPerson((long)1);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoPerson dtoperson){
+        if(!personService.existsById(id)){
+            return new ResponseEntity(new Message("No existe el ID"), HttpStatus.NOT_FOUND);
+        }
+        if(personService.existsByName(dtoperson.getName()) && personService.getByName(dtoperson.getName()).get().getId() != id){
+            return new ResponseEntity(new Message("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+        }
+        if(StringUtils.isBlank(dtoperson.getName())){
+            return new ResponseEntity(new Message("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
+        }
+        
+        Person person = personService.getOne(id).get();
+        
+        person.setName(dtoperson.getName());
+        person.setLastname(dtoperson.getLastname());
+        person.setDescription(dtoperson.getDescription());
+        person.setImg(dtoperson.getImg());
+        
+        personService.save(person);
+        
+        return new ResponseEntity(new Message("Persona actualizada"), HttpStatus.OK);
     }
 }
